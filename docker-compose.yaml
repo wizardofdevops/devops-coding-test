@@ -1,0 +1,35 @@
+version: "3"
+networks:
+  tig-net:
+
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb:1.4.3-alpine
+    hostname: influxdb
+    networks:
+      - tig-net
+    ports: 
+      - "8086:8086"
+      - "8083:8083"
+    restart: always
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:5.0.0
+    networks:
+      - tig-net
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb
+    restart: always
+
+  telegraf:
+    container_name: telegraf
+    image: telegraf:1.5.2
+    networks:
+      - tig-net
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    restart: always
