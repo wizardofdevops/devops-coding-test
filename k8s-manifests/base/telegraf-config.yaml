@@ -120,7 +120,7 @@ data:
       password = "$INFLUXDB_USER_PASSWORD"
 
       ## HTTP User-Agent
-      # user_agent = "telegraf"
+      user_agent = "telegraf"
 
       ## UDP payload size is the maximum packet size to send.
       # udp_payload = 512

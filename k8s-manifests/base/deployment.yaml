@@ -109,6 +109,8 @@ spec:
                 secretKeyRef:
                   name: influxdb-secrets
                   key: INFLUXDB_PASSWORD
+            - name: INFLUXDB_URL
+              value: http://influxdb:8086
       hostname: influxdb
       restartPolicy: Always
       volumes:

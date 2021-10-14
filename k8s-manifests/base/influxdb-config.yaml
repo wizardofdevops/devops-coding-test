@@ -7,7 +7,7 @@ metadata:
 data:
   influxdb.conf: |+
     reporting-disabled = false
-    bind-address = ":8086"
+    bind-address = "0.0.0.0:8086"
 
     [meta]
       dir = "/var/lib/influxdb/meta"
@@ -64,7 +64,7 @@ data:
 
     [http]
       enabled = true
-      bind-address = ":8086"
+      bind-address = "0.0.0.0:8086"
       auth-enabled = true
       log-enabled = true
       suppress-write-log = false
