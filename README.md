@@ -1,31 +1,48 @@
-## DevOps Coding Test:
+# DevOps Test
 
 
-  
-**Problem**: We have a repository with definitions to run containers in docker-compose. We need to run them in kubernetes.
 
-**Goal**:
-- create kubernetes manifests to define all the necessary components to run this application in K8S.
-	 - "base" folder - should contain minimal amount of k8s manifests to bring it in line with the given docker-compose file.
-- Use kustomize to create two overlays
-	 - "dev" overlay
-	 	 - Use a more recent version of grafana (latest is fine)
+## Deployment
 
-	 - "qa" overlay
-		 - Use a different influxdb Database username and password Env Variable than the Dev Overlay. Take note of the version of influx --- This is changed in later versions of influx (The docker-compose file given doesn't actually define a default influx user/pass)
 
-- Provide Instructions for deploying your new application to k8s using a readme.md file.
+To deploy an environment configuration, use [kubectl](https://kubectl.docs.kubernetes.io/installation/kubectl/) and [kustomize](https://kubectl.docs.kubernetes.io/installation/kustomize/).
 
-- once done, commit your code to a branch called feature/k8s-manifest and open a pull request to the main branch. Put the manifests in the folder called k8s-manifests
-  
+For the base configuration:
+```bash
+kubectl kustomize k8s-manifests/base | kubectl apply -f -
+```
+For the Dev configuration:
+```bash
+kubectl kustomize k8s-manifests/overlays/dev | kubectl apply -f -
+```
+For the QA configuration:
+```bash
+kubectl kustomize k8s-manifests/overlays/qa | kubectl apply -f -
+```
 
-**Assumptions**:
+## Example
 
-- you can use minikube locally to do this project
-
-- all k8s objects should be in the devops-test-{your-first-name} namespace
-
-- ingress objects aren't required
-
-- its OK to submit unecrypted secrets in this instance... but never any other time. :P
-
+```bash
+$ kubectl kustomize overlays/qa | kubectl apply -f -
+namespace/devops-test-rod created
+configmap/influxdb-config created
+configmap/telegraf-config created
+secret/influxdb-secrets created
+service/grafana created
+service/influxdb created
+persistentvolume/data-pv created
+persistentvolumeclaim/grafana-pvclaim created
+persistentvolumeclaim/influx-pvclaim created
+deployment.apps/grafana created
+deployment.apps/influxdb created
+deployment.apps/telegraf created
+networkpolicy.networking.k8s.io/tig-net created
+```
+All k8s objects will be created in the "devops-test-rod" namespace.
+```bash
+$ kubectl get pods -n devops-test-rod
+NAME                        READY   STATUS    RESTARTS   AGE
+grafana-78997f8fdd-42jp8    1/1     Running   0          2m29s
+influxdb-6dcc7d8976-gn4vp   1/1     Running   0          2m29s
+telegraf-57d5cb44c4-qjfkm   1/1     Running   0          2m29s
+```
