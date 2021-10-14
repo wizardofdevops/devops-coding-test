@@ -116,8 +116,8 @@ data:
       # timeout = "5s"
 
       ## HTTP Basic Auth
-      username = "$INFLUXDB_USER"
-      password = "$INFLUXDB_USER_PASSWORD"
+      username = "$INFLUXDB_USERNAME"
+      password = "$INFLUXDB_PASSWORD"
 
       ## HTTP User-Agent
       user_agent = "telegraf"
