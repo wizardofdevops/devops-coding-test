@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana 
+  namespace: devops-test-rod
+spec:
+  template:
+    spec:
+      containers:
+      - image: grafana/grafana:8.2.1
+        name: grafana
