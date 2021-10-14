@@ -78,6 +78,9 @@ spec:
       containers:
       - image: influxdb:1.4.3-alpine
         name: influxdb
+        volumeMounts:
+        - mountPath: /var/lib/influxdb/var-lib-influxdb
+          name: var-lib-influxdb
         ports:
         - containerPort: 8086
         - containerPort: 8083
@@ -96,20 +99,20 @@ spec:
                 secretKeyRef:
                   name: influxdb-secrets
                   key: INFLUXDB_ADMIN_USER
-            - name: INFLUXDB_USER
+            - name: INFLUXDB_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: influxdb-secrets
-                  key: INFLUXDB_USER
-            - name: INFLUXDB_USER_PASSWORD
+                  key: INFLUXDB_USERNAME
+            - name: INFLUXDB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: influxdb-secrets
-                  key: INFLUXDB_USER_PASSWORD
+                  key: INFLUXDB_PASSWORD
       hostname: influxdb
       restartPolicy: Always
       volumes:
-        - name: influx-pvclaim
+        - name: var-lib-influxdb
           persistentVolumeClaim:
             claimName: influx-pvclaim
             readOnly: true
