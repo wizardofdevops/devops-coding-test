@@ -23,20 +23,20 @@ kubectl kustomize k8s-manifests/overlays/qa | kubectl apply -f -
 ## Example
 
 ```bash
-$ kubectl kustomize overlays/qa | kubectl apply -f -
-namespace/devops-test-rod created
-configmap/influxdb-config created
-configmap/telegraf-config created
-secret/influxdb-secrets created
-service/grafana created
-service/influxdb created
-persistentvolume/data-pv created
-persistentvolumeclaim/grafana-pvclaim created
-persistentvolumeclaim/influx-pvclaim created
-deployment.apps/grafana created
-deployment.apps/influxdb created
-deployment.apps/telegraf created
-networkpolicy.networking.k8s.io/tig-net created
+$ kubectl kustomize k8s-manifests/overlays/qa | kubectl apply -f -
+namespace/devops-test-rod unchanged
+configmap/influxdb-config unchanged
+configmap/telegraf-config unchanged
+secret/influxdb-secrets configured
+service/grafana configured
+service/influxdb configured
+persistentvolume/data-pv unchanged
+persistentvolumeclaim/grafana-pvclaim configured
+persistentvolumeclaim/influx-pvclaim configured
+deployment.apps/grafana configured
+deployment.apps/influxdb configured
+deployment.apps/telegraf configured
+networkpolicy.networking.k8s.io/tig-net configured
 ```
 All k8s objects will be created in the "devops-test-rod" namespace.
 ```bash
